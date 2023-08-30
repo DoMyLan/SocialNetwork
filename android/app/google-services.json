@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "273543665267",
+    "project_id": "lifepost-34308",
+    "storage_bucket": "lifepost-34308.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:273543665267:android:208a5a42760195db61bc06",
+        "android_client_info": {
+          "package_name": "com.example.life_post_prj"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "273543665267-8buopqbaklmtqtrpvve5p18mnpqrdld0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.life_post_prj",
+            "certificate_hash": "b9941cda445e2b3819a2d66d83990538e4368553"
+          }
+        },
+        {
+          "client_id": "273543665267-ocus0ghv6287pm6gag7q4v1e1r0dbh0n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwmKt9AFUXk8X_QN3ceMmoef1r73rEs48"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "273543665267-ocus0ghv6287pm6gag7q4v1e1r0dbh0n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
