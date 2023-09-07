@@ -12,7 +12,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
+
+  //
   WidgetsFlutterBinding.ensureInitialized();
+
+  //chạy trên web
   if (kIsWeb) {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
@@ -40,6 +44,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+          //ẩn debug console
           debugShowCheckedModeBanner: false,
           title: 'Instagram Clone',
           theme: ThemeData.dark()

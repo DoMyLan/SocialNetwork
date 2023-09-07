@@ -3,6 +3,7 @@ import 'package:life_post_prj/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:life_post_prj/models/user.dart' as model;
 
+
 class WebScreenLayout extends StatefulWidget {
   const WebScreenLayout({super.key});
 

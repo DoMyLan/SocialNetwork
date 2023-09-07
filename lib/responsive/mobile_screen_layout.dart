@@ -59,11 +59,14 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
     return Scaffold(
       body: PageView(
         children: homeScreenItems,
-
+        
+        //ngăn chặn chuyển đổi các tab bằng cách vuốt sang trái hoặc phải
         physics: NeverScrollableScrollPhysics(),
         controller: pageController,
         onPageChanged: onPageChanged,
       ),
+
+      //thanh điều hướng ở dưới cùng
       bottomNavigationBar: CupertinoTabBar(
         backgroundColor: mobileBackgroundColor,
         items: [

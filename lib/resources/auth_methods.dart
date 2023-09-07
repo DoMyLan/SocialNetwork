@@ -45,7 +45,7 @@ class AuthMethods{
         );
 
 
-
+      // Thêm dữ liệu người dùng vào collection 'users' của firebase
         await _firestore.collection('users').doc(cred.user!.uid).set(user.toJson());
         res ="success";
       }

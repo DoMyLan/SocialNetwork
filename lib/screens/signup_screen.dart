@@ -27,6 +27,8 @@ class _SignupScreenState extends State<SignupScreen> {
   Uint8List? _image;
   bool _isLoading = false;
 
+  
+  //giải phóng tài nguyên sau khi sử dụng
   @override
   void dispose() {
     super.dispose();
@@ -37,6 +39,7 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void selectImage() async {
+    //lấy hình ảnh từ thư viện hình ảnh trên thiết bị trong Flutter
     Uint8List im = await pickImage(ImageSource.gallery);
     setState(() {
       _image = im;
@@ -181,7 +184,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     Container(
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         child: const Text("Don't have any account? ")),
-                    //xử lý thao tác chuột
+                    //xử lý thao tác chuột như 
                     GestureDetector(
                       onTap: navigateToLogin,
                       child: Container(
