@@ -1,11 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:life_post_prj/models/user.dart';
+import 'package:life_post_prj/providers/user_provider.dart';
 import 'package:life_post_prj/utils/colors.dart';
+import 'package:intl/intl.dart';
+import 'package:life_post_prj/widgets/like_animation.dart';
+import 'package:provider/provider.dart';
 
-class PostCard extends StatelessWidget {
-  const PostCard({super.key});
+class PostCard extends StatefulWidget {
+
+  final snap;
+  const PostCard({super.key, required this.snap});
+
+  @override
+  State<PostCard> createState() => _PostCardState();
+}
+
+class _PostCardState extends State<PostCard> {
+  bool isLikeAnimating=false;
 
   @override
   Widget build(BuildContext context) {
+
+    final User user = Provider.of<UserProvider>(context).getUser;
+
     return Container(
       color: mobileBackgroundColor,
       padding: const EdgeInsets.symmetric(vertical: 10),
@@ -21,8 +38,7 @@ class PostCard extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 16,
-                  backgroundImage: NetworkImage(
-                      'https://upload.wikimedia.org/wikipedia/commons/b/b4/Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg'),
+                  backgroundImage: NetworkImage(widget.snap['profImage']),
                 ),
                 Expanded(
                   child: Padding(
@@ -32,7 +48,7 @@ class PostCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'username',
+                          widget.snap['username'],
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
@@ -73,12 +89,41 @@ class PostCard extends StatelessWidget {
           ),
 
           //IMAGE SESSION
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.35,
-            width: double.infinity,
-            child: Image.network(
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfWwrc0s0JuCqzWsumKLh9Lq-eMIMUpJQ-HrQkqOpUbl0PYhGBUtBk7g2_Ljc_hgyS3qo&usqp=CAU',
-              fit: BoxFit.cover,
+          GestureDetector(
+            onDoubleTap: (){
+              setState(() {
+                isLikeAnimating = true;
+              });
+            },
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.35,
+                  width: double.infinity,
+                  child: Image.network(
+                    widget.snap['postUrl'],
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                AnimatedOpacity(
+                  duration: Duration(milliseconds: 300),
+                  opacity: isLikeAnimating? 1:0,
+                  child: LikeAnimation(
+                      child: const Icon(
+                        Icons.favorite,
+                        color: Colors.white,
+                        size: 120,
+                      ),
+                      isAnimating: isLikeAnimating,
+                      duration: Duration(milliseconds: 400),
+                      onEnd: (){
+                        setState(() {
+                          isLikeAnimating = false;
+                        });
+                      },),
+                )
+              ],
             ),
           ),
 
@@ -86,11 +131,15 @@ class PostCard extends StatelessWidget {
 
           Row(
             children: [
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.favorite,
-                  color: Colors.red,
+              LikeAnimation(
+                isAnimating: widget.snap['likes'].contains(user.uid),
+                smallLike: true,
+                child: IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.favorite,
+                    color: Colors.red,
+                  ),
                 ),
               ),
               IconButton(
@@ -116,13 +165,15 @@ class PostCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                //TextStyle mặc định cho tất cả widget con như: kiểu chữ, kích thước chữ, color,...
                 DefaultTextStyle(
                   style: Theme.of(context)
                       .textTheme
                       .subtitle2!
+                      //độ đậm của chữ
                       .copyWith(fontWeight: FontWeight.w800),
                   child: Text(
-                    '1,234 likes',
+                    '${widget.snap['likes'].length} likes',
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                 ),
@@ -130,20 +181,40 @@ class PostCard extends StatelessWidget {
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.only(top: 8),
+
+                  //RichText cho phép hiển thị văn bản với các kiểu văn bản khác nhau trong cùng một widget.
                   child: RichText(
-                      text: const TextSpan(
+                      text: TextSpan(
                           style: TextStyle(color: primaryColor),
                           children: [
                         TextSpan(
-                            text: 'username',
+                            text: widget.snap['username'],
                             style: TextStyle(fontWeight: FontWeight.bold)),
-
                         TextSpan(
-                            text: '  This is some descriptions',
-                            style: TextStyle(fontWeight: FontWeight.bold)),    
-
+                            text: '  ${widget.snap['description']}',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
                       ])),
-                )
+                ),
+
+                // View more comments
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: Text(
+                        "View all 200 comments",
+                        style: const TextStyle(
+                            fontSize: 16, color: secondaryColor),
+                      )),
+                ),
+
+                //Ngày post bài viết
+                Container(
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    child: Text(
+                      DateFormat.yMMMd().format(widget.snap['datePublished'].toDate()),
+                      style: TextStyle(fontSize: 16, color: secondaryColor),
+                    ))
               ],
             ),
           )
