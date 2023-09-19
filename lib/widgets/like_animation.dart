@@ -4,6 +4,7 @@ class LikeAnimation extends StatefulWidget {
   final Widget child;
   final bool isAnimating;
   final Duration duration;
+  //Hàm callback onEnd sẽ được gọi khi animation kết thúc (onEnd chứa các lệnh để thực thi sau khi kết thúc animation)
   final VoidCallback? onEnd;
   final bool smallLike;
   const LikeAnimation(
@@ -31,7 +32,7 @@ class _LikeAnimationState extends State<LikeAnimation>
         duration: Duration(milliseconds: widget.duration.inMilliseconds ~/ 2));
     
     //thay đổi kích thước tỉ lệ ảnh từ 100% -> 120%
-    scale =Tween<double>(begin:1, end:1.2).animate(controller);
+    scale =Tween<double>(begin: 1, end: 1.2).animate(controller);
   }
 
   @override
@@ -49,6 +50,7 @@ class _LikeAnimationState extends State<LikeAnimation>
 
       //animation chạy từ đầu -> cuối
       await controller.forward();
+
       //animation chạy từ cuối -> đầu
       await controller.reverse();
 
@@ -68,6 +70,7 @@ class _LikeAnimationState extends State<LikeAnimation>
 
   @override
   Widget build(BuildContext context) {
+    //sử dụng ScaleTransition để áp dụng hiệu ứng thay đổi kích thước scale lên widget 'child'
     return ScaleTransition(
       scale: scale,
       child: widget.child,
